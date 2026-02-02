@@ -4,7 +4,6 @@ from collections import defaultdict
 def largest_rectangle(a: List[List[int]]) -> Tuple[int, int]:
     n = len(a)
     segs = defaultdict(list)
-
     for i in range(n):
         j = 0
         while j < len(a[i]):
@@ -18,15 +17,19 @@ def largest_rectangle(a: List[List[int]]) -> Tuple[int, int]:
 
     for x, lst in segs.items():
         mp = {}
-        prev = -1
+        prev_row = -1
+
         for r, l, rr in lst:
-            if r != prev + 1:
+            if r != prev_row + 1:
                 mp.clear()
-            k = (l, rr)
-            mp[k] = mp.get(k, 0) + 1
-            area = (rr - l + 1) * mp[k]
+
+            key = (l, rr)
+            mp[key] = mp.get(key, 0) + 1
+
+            area = (rr - l + 1) * mp[key]
             if area > ans:
                 ans, val = area, x
-            prev = r
+
+            prev_row = r
 
     return val, ans
